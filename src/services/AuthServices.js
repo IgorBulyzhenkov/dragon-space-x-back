@@ -18,7 +18,7 @@ const sendEmail = async (name, email) => {
     subject: "Sending with SendGrid is Fun",
     text: `You are verification token`,
     html: `<h1>Hi ${name}  Please you confirm for registration</h1>
-    <button type="button"><a href="https://igor-bulyzhenkov.herokuapp.com/verify">Click me</a></button>`,
+    <button type="button"><a href="https://localhost:3000/verify">Click me</a></button>`,
   };
   await sgMail.send(msg).then(() => {
     console.log("Email sent");
