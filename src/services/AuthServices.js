@@ -101,7 +101,7 @@ const verifyService = async (email) => {
     throw new NotAuthorizeError(`No user with found`);
   }
 
-  await sendEmail(email, user.verificationToken);
+  await sendEmail(user.name, email);
 
   return user;
 };

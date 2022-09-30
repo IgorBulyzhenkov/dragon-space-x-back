@@ -15,6 +15,7 @@ const registrationControls = async (req, res, next) => {
     return res.status(201).json({
       user: {
         name: data.name,
+        email: data.email,
         verificationToken: data.verificationToken,
         verify: data.verify,
       },
