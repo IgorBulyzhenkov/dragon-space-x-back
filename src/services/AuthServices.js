@@ -20,9 +20,14 @@ const sendEmail = async (name, email) => {
     html: `<h1>Hi ${name}  Please you confirm for registration</h1>
     <button type="button"><a href="http://localhost:3000/verify">Click me</a></button>`,
   };
-  await sgMail.send(msg).then(() => {
-    console.log("Email sent");
-  });
+  await sgMail
+    .send(msg)
+    .then(() => {
+      console.log("Email sent");
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
 };
 
 const registration = async (name, email, password) => {
@@ -76,6 +81,9 @@ const verification = async (token) => {
     .then(() => {
       console.log("Email sent");
     })
+    .catch((error) => {
+      console.log(error.message);
+    });
 
   const newToken = jwt.sign({ _id: user._id }, process.env.SECRET);
 
