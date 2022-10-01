@@ -51,7 +51,7 @@ const logoutControls = async (req, res, next) => {
 const verificationControl = async (req, res, next) => {
   try {
     const data = await verification(req.params.verificationToken);
-    console.log(data);
+
     res.status(200).json({
       user: {
         name: data.name,
