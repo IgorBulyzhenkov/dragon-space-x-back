@@ -5,14 +5,6 @@ API to a MongoDB-backed model.
 
 - [How To Install App](#install)
 - [REST API](#rest-api)
-- [Contacts Routes](#contacts)
-  - [List of contacts](#get-list-of-contacts)
-  - [Contact by Id](#get-contact-by-id)
-  - [Create](#create-contact)
-  - [Update](#update-contact)
-  - [Update favorite field](#update-contact-favorite-field)
-  - [Delete](#delete-contact)
-- [Query Params For Contacts Routes](#query-params-for-contacts-list)
 - [Users Routes](#users)
   - [Registration](#user-registration)
   - [Login](#user-login)
@@ -45,172 +37,6 @@ API to a MongoDB-backed model.
 
 The REST API to the example app is described below.
 
-# Contacts
-
-## Get list of contacts
-
-### Request
-
-`GET /api/contacts/`
-
-    HTTP/1.1
-    Authorization: Bearer
-
-### Response
-
-    HTTP/1.1 200 OK
-    Status: success
-    Content-Type: application/json
-
-    Body: "contacts": []
-    
- ### Bad Response
-
-    HTTP/1.1 404 OK
-    Status: error.message
-    Content-Type: application/json
-
-## Get contact by id
-
-### Request
-
-`GET /api/contacts/:id`
-
-    HTTP/1.1
-    Authorization: Bearer
-    _id: String
-
-### Response
-
-    HTTP/1.1 200 OK
-    Status: success
-    Content-Type: application/json
-
-    Body: "contact": { "favorite": boolean, "_id": string, "name": string, "email": string, "phone": string, "owner": object }
-
- ### Bad Response
-
-    HTTP/1.1 404 OK
-    Status: error.message
-    Content-Type: application/json
-
-### Request
-
-`POST /api/contacts/`
-
-    HTTP/1.1
-    Authorization: Bearer
-
-    Body: { "name": string, "email": string, "phone": string }
-
-### Response
-
-    HTTP/1.1 201 OK
-    Status: add contact
-    Content-Type: application/json
-
-     Body: "contact": { "favorite": boolean, "_id": string, "name": string, "email": string, "phone": string, "owner": object }
-
- ### Bad Response
-
-    HTTP/1.1 500 OK
-    Status: error.message
-    Content-Type: application/json
-    
-## Update contact
-
-### Request
-
-`PUT /api/contacts/:id`
-
-    HTTP/1.1
-    Authorization: Bearer
-
-    Body: { "favorite": boolean, "name": string, "email": string, "phone": string }
-
-### Response
-
-    HTTP/1.1 200 OK
-    Status: success
-    Content-Type: application/json
-
-    Body: "contact": { "favorite": boolean, "_id": string, "name": string, "email": string, "phone": string, "owner": object }
-    
- ### Bad Response
-
-    HTTP/1.1 400  404  OK
-    Status: missing fields , Not found
-    Content-Type: application/json
-
-## Update contact favorite field
-
-### Request
-
-`PATCH /api/contacts/:id/favorite`
-
-    HTTP/1.1
-    Host: localhost:7070
-    Authorization: Bearer
-
-    Body: { "favorite": boolean }
-
-### Response
-
-    HTTP/1.1 200 OK
-    Status: contact update
-    Content-Type: application/json
-    
-### Bad Response
-
-    HTTP/1.1 400  404  OK
-    Status: missing field favorite , Not found
-    Content-Type: application/json
-
-## Delete contact
-
-### Request
-
-`DELETE /api/contacts/:id`
-
-    HTTP/1.1
-    Authorization: Bearer
-
-### Response
-
-    HTTP/1.1 200 OK
-    Status: contact deleted
-    Content-Type: application/json
-    
-### Bad Response
-
-    HTTP/1.1 400  404  OK
-    Status: error.message , Not found
-    Content-Type: application/json
-
-# Query params for contacts list
-
-### Requests
-
-`GET /api/contacts?page=1`
-
-`GET /api/contacts?limit= max 20`
-
-`GET /api/contacts?favorite=true`
-
-`GET /api/contacts?sortBy=name`
-
-`GET /api/contacts?sortByDesc=name`
-
-`GET /api/contacts?filter=email`
-
-    HTTP/1.1
-    Authorization: Bearer
-
-### Response
-
-    HTTP/1.1 200 OK
-    Content-Type: application/json
-
 # Users
 
 ## User Registration
@@ -221,14 +47,14 @@ The REST API to the example app is described below.
 
     HTTP/1.1
 
-    Body: { "email": string, "password": string }
+    Body: { "name": string, email": string, "password": string }
 
 ### Response
 
     HTTP/1.1 201 Created
     Content-Type: application/json
 
-    Body: { "user": { "email": string, "subscription": string } }
+    Body: { "user": { "name": string, "email": string, "verificationToken": string, "verify": boolean } }
     
 ### Bad Response
 
@@ -251,7 +77,7 @@ The REST API to the example app is described below.
     HTTP/1.1 200 OK
     Content-Type: application/json
 
-    Body: { "token": string, "user": { "email": string, "subscription": string } }
+    Body: { "token": string, "user": { "name": string,} }
     
 ### Bad Response
 
@@ -267,8 +93,8 @@ The REST API to the example app is described below.
 `POST /api/users/logout`
 
     HTTP/1.1
-    Host: localhost:7070
-    Authorization: Bearer
+    Host: "https://igor-bulyzhenkov.herokuapp.com/"
+    Authorization: Bearer Token
 
 ### Response
 
@@ -294,7 +120,7 @@ The REST API to the example app is described below.
     HTTP/1.1 200 OK
     Content-Type: application/json
 
-    Body: { "email": string, "subscription": string }
+    Body: { "name": string, "token": string }
     
  ### Bad Response
 
@@ -302,53 +128,52 @@ The REST API to the example app is described below.
     Status: Not authorized
     Content-Type: application/json
 
-## Update User Subscription
+## Verify User
 
 ### Request
 
-`PATCH /api/users/`
+`POST /api/users/verify`
 
     HTTP/1.1
     Authorization: Bearer
 
-    Body: { "subscription": ['starter', 'pro', 'business'], }
+    Body: { "email": string, }
 
 ### Response
 
     HTTP/1.1 200 OK
-    Status: updated
+    Status: verify
     Content-Type: application/json
-
-    Body: {  "email": string, "subscription": string }
+    
+    Body: { "message": "Verification email sent" } 
     
  ### Bad Response
 
-    HTTP/1.1 401  OK
+    HTTP/1.1 400  OK
     Status: Not found
     Content-Type: application/json
+    
+    Body: { "message": "Verification has already been passed" }
 
-## Update User Avatar
+## Verify User Email 
 
 ### Request
 
-`PATCH /api/users/avatars`
+`GET /api/users/verify/:verificationToken`
 
     HTTP/1.1
     Content-Type: multipart/form-data
-    Authorization: Bearer
-
-    Body: { "avatar": image }
 
 ### Response
 
     HTTP/1.1 200 OK
-    Status: updated
+    Status: verify
     Content-Type: application/json
 
-    Body: { "avatarURL": string }
+    Body: {  "user": { "name": string, "token": string,}, }
     
 ### Bad Response
 
-    HTTP/1.1 401  OK
+    HTTP/1.1 404  OK
     Status: Not authorized , error.message
     Content-Type: application/json
