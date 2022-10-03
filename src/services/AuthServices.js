@@ -72,7 +72,7 @@ const verification = async (token) => {
   const msg = {
     to: user.email,
     from: "bulyzhenkovigor1@gmail.com",
-    subject: `"Thank's ${user.name}"`,
+    subject: `Thank's ${user.name}`,
     text: `Thank you for registration`,
     html: `<h1>Thank you for registration</h1>`,
   };
