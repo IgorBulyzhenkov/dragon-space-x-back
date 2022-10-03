@@ -18,7 +18,7 @@ const sendEmail = async (name, email) => {
     subject: "Sending with SendGrid is Fun",
     text: `You are verification token`,
     html: `<h1>Hi ${name}  Please you confirm for registration</h1>
-    <button type="button"><a href="http://localhost:3000/verify">Click me</a></button>`,
+    <button type="button"><a href="https://dragon-space-x.netlify.app/verify">Click me</a></button>`,
   };
   await sgMail
     .send(msg)
