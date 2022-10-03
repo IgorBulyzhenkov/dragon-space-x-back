@@ -15,7 +15,7 @@ const sendEmail = async (name, email) => {
   const msg = {
     to: email,
     from: "bulyzhenkovigor1@gmail.com",
-    subject: "Sending with SendGrid is Fun",
+    subject: `Hi ${name}`,
     text: `You are verification token`,
     html: `<h1>Hi ${name}  Please you confirm for registration</h1>
     <button type="button"><a href="https://dragon-space-x.netlify.app/verify">Click me</a></button>`,
@@ -72,7 +72,7 @@ const verification = async (token) => {
   const msg = {
     to: user.email,
     from: "bulyzhenkovigor1@gmail.com",
-    subject: "Thank`s",
+    subject: `"Thank's ${user.name}"`,
     text: `Thank you for registration`,
     html: `<h1>Thank you for registration</h1>`,
   };
