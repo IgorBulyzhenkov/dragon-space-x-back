@@ -10,8 +10,8 @@ API to a MongoDB-backed model.
   - [Login](#user-login)
   - [Logout](#user-logout)
   - [Current user](#get-current-user)
-  - [Update Subscription](#update-user-subscription)
-  - [Update Avatar](#update-user-avatar)
+  - [Verify User](#verify-user)
+  - [Verify User Email](#verify-user-email)
 
 ## Install
 
