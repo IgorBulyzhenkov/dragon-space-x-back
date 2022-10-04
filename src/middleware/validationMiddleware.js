@@ -15,7 +15,6 @@ module.exports = {
 
     const validateBody = schema.validate(req.body);
     const { error } = validateBody;
-    console.log(error.message);
     if (error) {
       return res
         .status(400)
@@ -38,9 +37,7 @@ module.exports = {
     const validateBody = schema.validate(req.body);
     const { error } = validateBody;
     if (error) {
-      return res
-        .status(400)
-        .json({ message: `missing required ${error} field` });
+      return res.status(400).json({ message: `${error.message}` });
     }
 
     next();
@@ -58,9 +55,7 @@ module.exports = {
     const validateBody = schema.validate(req.body);
     const { error } = validateBody;
     if (error) {
-      return res
-        .status(400)
-        .json({ message: `missing required ${error} field` });
+      return res.status(400).json({ message: `${error.message}` });
     }
 
     next();
