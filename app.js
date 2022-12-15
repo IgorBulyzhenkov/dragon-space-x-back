@@ -8,8 +8,22 @@ const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
+const allowedOrigins = ["https://app.example.com", "https://example.com"];
+
+// check origin
+var corsOptions = {
+  origin: (origin, callback) => {
+    if (process.env.NETLIFY_DEV === "true" || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  optionsSuccessStatus: 200,
+};
+
 app.use(logger(formatsLogger));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan("tiny"));
 
