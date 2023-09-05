@@ -27,14 +27,14 @@ const registrationControls = async (req, res, next) => {
 
 const loginControls = async (req, res, next) => {
   const { email, password } = req.body;
-  const { user, token } = await login(email, password);
+  const { token, _id, name } = await login(email, password);
 
-  if (user) {
+  if (name) {
     return res.status(200).json({
-      token: token,
-      user: {
-        name: user.name,
-      },
+      token,
+      id: _id,
+      name,
+      email,
     });
   }
 };
@@ -50,13 +50,15 @@ const logoutControls = async (req, res, next) => {
 
 const verificationControl = async (req, res, next) => {
   try {
-    const data = await verification(req.params.verificationToken);
+    const { token, _id, name, email } = await verification(
+      req.params.verificationToken
+    );
 
     res.status(200).json({
-      user: {
-        name: data.name,
-        token: data.token,
-      },
+      token,
+      id: _id,
+      name,
+      email,
     });
   } catch (error) {
     res.status(404).json({
@@ -78,10 +80,9 @@ const verifyControls = async (req, res, next) => {
 };
 
 const currentControls = async (req, res, next) => {
-  const dataId = req.user;
-  if (dataId) {
-    const { name, token } = dataId;
-    return res.status(200).json({ name, token });
+  const { token, _id, name, email } = req.user;
+  if (name) {
+    return res.status(200).json({ token, id: _id, name, email });
   } else {
     return res.status(401).json({ message: "Not authorized" });
   }

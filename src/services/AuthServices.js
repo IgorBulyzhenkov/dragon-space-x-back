@@ -32,7 +32,9 @@ const sendEmail = async (name, email) => {
 
 const registration = async (name, email, password) => {
   const verificationToken = jwt.sign({ token: uuidv4() }, process.env.SECRET);
-  const user = new User({ name, email, password, verificationToken });
+  const date = new Date();
+  const user = new User({ name, email, password, verificationToken, date });
+  console.log(user);
   await user.save();
   await sendEmail(name, email);
   const userData = await User.findOne({ email, verify: false });
@@ -51,8 +53,8 @@ const login = async (email, password) => {
   }
 
   const token = jwt.sign({ _id: user._id }, process.env.SECRET);
-  await User.findByIdAndUpdate({ _id: user._id }, { token });
-  return { token, user };
+
+  return await User.findByIdAndUpdate({ _id: user._id }, { token });
 };
 
 const logOut = async (user) => {

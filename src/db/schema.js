@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   token: String,
+  date: String,
   verify: {
     type: Boolean,
     default: false,
